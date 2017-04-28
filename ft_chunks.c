@@ -6,11 +6,11 @@
 /*   By: adaly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 13:20:19 by adaly             #+#    #+#             */
-/*   Updated: 2017/04/19 13:42:47 by adaly            ###   ########.fr       */
+/*   Updated: 2017/04/26 17:48:07 by adaly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-t_chunkinfo	**ft_locate_chunks(int fd, long long num_chunks)
+t_chunkinfo	**ft_locate_chunks(int fd, long long num_chunks, long long size_index)
 {
 	int			countone;
 	t_chunkinfo **chunks;

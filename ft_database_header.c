@@ -6,9 +6,12 @@
 /*   By: adaly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 12:54:03 by adaly             #+#    #+#             */
-/*   Updated: 2017/04/19 13:45:31 by adaly            ###   ########.fr       */
+/*   Updated: 2017/04/27 17:44:23 by adaly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_db.h"
+#include "libft/get_next_line.h"
 
 t_dbinfo	*ft_read_dbheader(int fd, t_dbinfo *dbmeta)
 {
@@ -21,20 +24,23 @@ t_dbinfo	*ft_read_dbheader(int fd, t_dbinfo *dbmeta)
 	if (fd > 0 && dbmeta)
 	{
 		dbmeta->chunks = NULL;
-		line = NULL;
-		while ((status = get_next_line(fd, &line)) == 1 && counter < 3)
+		status = get_next_line(fd, &line);
+		if (ft_strequ(line, "[HEADER]"))
 		{
-			if (counter == 0)
-				dbmeta->num_entries = ft_atoi(line);
-			if (counter == 1)
-				dbmeta->num_fields = ft_atoi(line);
-			if (counter == 2)
-				dbmeta->num_chunks = ft_atoi(line);
-			++counter;
+			while ((status = get_next_line(fd, &line)) == 1 && counter < 4)
+			{
+				if (counter == 0)
+					dbmeta->name = ft_strdup(line);
+				if (counter == 1)
+					dbmeta->num_entries = ft_atoi(line);
+				if (counter == 2)
+					dbmeta->num_fields = ft_atoi(line);
+				if (counter == 3)
+					dbmeta->num_chunks = ft_atoi(line);
+				++counter;
+			}
 		}
-		if (counter == 3)
-			dbmeta->chunks = ft_locate_chunks(fd, dbmeta->num_chunks);
-		if (dbmeta->chunks)
+		if (dbmeta)
 			return (dbmeta);
 	}
 	return (NULL);
