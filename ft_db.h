@@ -6,13 +6,13 @@
 /*   By: adaly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 12:43:49 by adaly             #+#    #+#             */
-/*   Updated: 2017/04/19 15:02:57 by adaly            ###   ########.fr       */
+/*   Updated: 2017/04/29 06:13:52 by adaly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_DB_H
 # define FT_DB_H
-
+# include "libft/libft.h"
 typedef struct	s_field
 {
 	void		*data;
@@ -28,17 +28,27 @@ typedef struct	s_field
 typedef struct	s_chunkinfo
 {
 	void		*chunk_addr;
-	long long	offset;
 	long long	chunkid;
 	long long	fieldid;
-	long long	chunksize;
 }				t_chunkinfo;
+
+typedef struct	s_fieldinfo
+{
+	char		*field_name;
+	long long	field_id;
+	long long	size;
+	char		text;
+	char		sign;
+	char		delim;
+}				t_fieldinfo;
 
 typedef struct	s_dbinfo
 {
-	t_chunkinfo	**chunks;
-	char		**field_names;
-	long long	**field_sizes;
+	char		*name;
+	int			fd;
+	t_chunkinfo	*chunks;
+	t_fieldinfo	*fields;
+	long long	chunksize;
 	long long	num_entries;
 	long long	num_fields;
 	long long	num_chunks;
@@ -50,6 +60,7 @@ int				ft_write_dbheader(int fd, t_dbinfo *dbmeta);
 t_chunkinfo		**ft_locate_chunks(int fd, long long num_chunks);
 t_chunkinfo		*ft_parse_chunk(int fd);
 t_field			*ft_create_entry(t_dbinfo *dbmeta);
-int				ft_initialize_field(long long field_id, ft_field *prev_addr);
-
+int				ft_initialize_field(long long field_id, t_field *prev_addr);
+int				ft_identify_fields(t_dbinfo *dbmeta, int fd);
+t_fieldinfo		*ft_parse_field(char *str);
 #endif
