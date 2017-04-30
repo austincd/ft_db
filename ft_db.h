@@ -6,7 +6,7 @@
 /*   By: adaly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 12:43:49 by adaly             #+#    #+#             */
-/*   Updated: 2017/04/29 06:13:52 by adaly            ###   ########.fr       */
+/*   Updated: 2017/04/29 20:25:57 by adaly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct	s_dbinfo
 }				t_dbinfo;
 
 int				ft_load_chunk(int fd, t_dbinfo *dbmeta, long long chunk_id);
-t_dbinfo		*ft_read_dbheader(int fd, t_dbinfo *dbmeta);
+t_dbinfo		*ft_read_dbheader(int fd);
 int				ft_write_dbheader(int fd, t_dbinfo *dbmeta);
 t_chunkinfo		**ft_locate_chunks(int fd, long long num_chunks);
 t_chunkinfo		*ft_parse_chunk(int fd);
@@ -63,4 +63,7 @@ t_field			*ft_create_entry(t_dbinfo *dbmeta);
 int				ft_initialize_field(long long field_id, t_field *prev_addr);
 int				ft_identify_fields(t_dbinfo *dbmeta, int fd);
 t_fieldinfo		*ft_parse_field(char *str);
+int				ft_create_database(char *name, long long fields, long long chunk_size);
+int				ft_new_chunk(t_dbinfo *dbmeta, long long field_id);
+int				ft_write_chunk(t_dbinfo *dbmeta, long long chunk_id);
 #endif

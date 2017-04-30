@@ -6,18 +6,21 @@
 /*   By: adaly <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 12:54:03 by adaly             #+#    #+#             */
-/*   Updated: 2017/04/29 05:27:16 by adaly            ###   ########.fr       */
+/*   Updated: 2017/04/29 20:33:49 by adaly            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_db.h"
 
-t_dbinfo	*ft_read_dbheader(int fd, t_dbinfo *dbmeta)
+t_dbinfo	*ft_read_dbheader(int fd)
 {
 	long long	*ptr;
 	long long	llsize;
 	long long	counter;
+	t_dbinfo	*dbmeta;
 	
+	counter = 0;
+	dbmeta = (t_dbinfo*)ft_memalloc(sizeof(t_dbinfo));
 	if (fd > 0 && dbmeta)
 	{
 		llsize = sizeof(long long);
@@ -39,9 +42,9 @@ t_dbinfo	*ft_read_dbheader(int fd, t_dbinfo *dbmeta)
 			++counter;
 		}
 	}
-	return (NULL);
+	return (dbmeta);
 }
-
+/*
 void		ft_read_chunkzero(long long fd, t_dbinfo *dbmeta)
 {
 	long long	counter;
@@ -67,3 +70,4 @@ void		ft_read_chunkzero(long long fd, t_dbinfo *dbmeta)
 int			ft_write_dbheader(int fd, t_dbinfo *dbmeta)
 {
 }
+*/
